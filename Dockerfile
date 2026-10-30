@@ -32,7 +32,7 @@ ARG TARGETOS TARGETARCH TARGETVARIANT
 RUN GOOS=$TARGETOS GOARCH=$TARGETARCH GOARM=${TARGETVARIANT#v} \
       go build -trimpath -ldflags="$LDFLAGS" -o /out/serverwarden ./cmd/panel
 
-FROM docker.io/library/alpine:3.22
+FROM docker.io/library/alpine:3.24
 # The data directory exists and belongs to the panel user, so a named volume
 # mounted there needs no chown.
 RUN adduser -D -H -u 10001 -s /sbin/nologin panel \
