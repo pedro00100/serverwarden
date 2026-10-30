@@ -4,7 +4,7 @@
 # Multi-platform builds (linux/amd64, linux/arm64, linux/arm/v7) run Node and
 # Go on the build machine and cross-compile; only the last stage is per target.
 
-FROM --platform=$BUILDPLATFORM docker.io/library/node:22-alpine AS web
+FROM --platform=$BUILDPLATFORM docker.io/library/node:25-alpine AS web
 WORKDIR /web
 COPY web/package.json web/package-lock.json ./
 RUN npm ci --no-audit --no-fund
