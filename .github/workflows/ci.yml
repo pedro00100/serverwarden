@@ -24,9 +24,9 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
-          # The latest 1.26 patch every time, so security fixes in the
+          # The latest 1.27 patch every time, so security fixes in the
           # standard library land without anyone bumping a version.
-          go-version: '1.26.x'
+          go-version: '1.27.x'
           check-latest: true
       - name: Formatting
         run: test -z "$(gofmt -l cmd internal)" || { gofmt -l cmd internal; exit 1; }

@@ -3,7 +3,7 @@
 # `make clean-all` removes every trace.
 
 ENGINE    ?= $(shell command -v podman 2>/dev/null || command -v docker 2>/dev/null)
-IMG_GO    ?= docker.io/library/golang:1.26-alpine
+IMG_GO    ?= docker.io/library/golang:1.27-alpine
 IMG_NODE  ?= docker.io/library/node:22-alpine
 VERSION   ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 

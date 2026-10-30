@@ -11,7 +11,7 @@ RUN npm ci --no-audit --no-fund
 COPY web/ ./
 RUN npm run build
 
-FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.26-alpine AS go
+FROM --platform=$BUILDPLATFORM docker.io/library/golang:1.27-alpine AS go
 WORKDIR /src
 ENV CGO_ENABLED=0 GOFLAGS=-buildvcs=false
 COPY go.mod go.sum ./

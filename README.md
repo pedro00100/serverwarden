@@ -10,7 +10,7 @@ Health, disks, containers, security posture and known vulnerabilities on one scr
 plus actions you approve with a hardware security key. Reachable only from your LAN or VPN.
 
 [![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-4cc9f0)](LICENSE)
-![Go](https://img.shields.io/badge/Go-1.26-4cc9f0)
+![Go](https://img.shields.io/badge/Go-1.27-4cc9f0)
 ![Svelte](https://img.shields.io/badge/Svelte-5-4cc9f0)
 ![Architectures](https://img.shields.io/badge/agents-amd64%20·%20arm64%20·%20armv7-4cc9f0)
 

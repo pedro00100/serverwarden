@@ -1,6 +1,6 @@
 module github.com/pedro00100/serverwarden
 
-go 1.26.10
+go 1.27.3
 
 require (
 	github.com/boombuler/barcode v1.1.0
