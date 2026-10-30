@@ -1,23 +1,27 @@
-# Weekly updates of every dependency, grouped so they arrive as one PR per
-# ecosystem; CI must pass before anything is merged.
+# Weekly updates. Patches and minor versions arrive grouped, one PR per
+# ecosystem, easy to merge once CI passes; major versions arrive one by one,
+# to be reviewed. CI must pass before anything is merged.
 version: 2
 updates:
   - package-ecosystem: gomod
     directory: /
     schedule: { interval: weekly }
-    groups: { go: { patterns: ['*'] } }
+    groups: { go: { update-types: [minor, patch] } }
   - package-ecosystem: npm
     directory: /web
     schedule: { interval: weekly }
-    groups: { web: { patterns: ['*'] } }
+    groups: { web: { update-types: [minor, patch] } }
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: weekly }
-    groups: { actions: { patterns: ['*'] } }
+    groups: { actions: { update-types: [minor, patch] } }
   - package-ecosystem: docker
     directory: /
     schedule: { interval: weekly }
     ignore:
-      # Node majors are moved by hand, from one LTS release to the next.
+      # Node majors move by hand, from one LTS release to the next.
       - dependency-name: node
         update-types: ['version-update:semver-major']
+      # Go moves together with go.mod and CI (go-version in the workflows).
+      - dependency-name: golang
+        update-types: ['version-update:semver-major', 'version-update:semver-minor']
