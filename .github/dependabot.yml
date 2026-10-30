@@ -17,3 +17,7 @@ updates:
   - package-ecosystem: docker
     directory: /
     schedule: { interval: weekly }
+    ignore:
+      # Node majors are moved by hand, from one LTS release to the next.
+      - dependency-name: node
+        update-types: ['version-update:semver-major']
