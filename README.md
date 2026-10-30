@@ -18,7 +18,7 @@ plus actions you approve with a hardware security key. Reachable only from your 
 
 </div>
 
-> **Status:** no published images yet; build it yourself with `make image` (below).
+> **Status:** first public release. Feedback and issues are welcome.
 > Every screenshot uses sample data.
 
 ---
@@ -114,40 +114,46 @@ flowchart LR
 
 ## Quick start
 
-You need a Linux machine with Docker or Podman for the panel, and SSH access as root
-(or a user who can read what you want to see) to each server.
+You need a Linux machine with Docker or Podman for the panel (amd64, arm64 or armv7: a
+mini PC, a NAS or a Raspberry Pi), and SSH access as root to each server you add.
 
-**1. Build the image.**
-
-```sh
-git clone <this repository> serverwarden && cd serverwarden
-make image            # builds serverwarden:<version> in a container; nothing to install
-```
-
-**2. Run it.** A minimal `compose.yaml` (a complete one is in [`examples/homelab`](examples/homelab/compose.yaml)):
+**1. Write a `compose.yaml`** (a complete one is in [`examples/homelab`](examples/homelab/compose.yaml)):
 
 ```yaml
 services:
-  panel:
-    image: serverwarden:<version>
+  serverwarden:
+    image: pedro00100/serverwarden:0.7      # or ghcr.io/pedro00100/serverwarden:0.7
     restart: unless-stopped
     read_only: true
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
     tmpfs: [/tmp]
     volumes:
-      - ./data:/var/lib/serverwarden     # owned by uid 10001
+      - data:/var/lib/serverwarden
     ports:
-      - "192.168.1.10:8443:8443"        # bind to your LAN address
+      - "192.168.1.10:8443:8443"            # your LAN address, never 0.0.0.0 on a public host
+    mem_limit: 768m
+    pids_limit: 128
+volumes:
+  data:
 ```
+
+**2. Start it** and open the one-time link it prints:
 
 ```sh
-mkdir -p data && sudo chown 10001:10001 data
 docker compose up -d
-docker compose logs panel    # prints a one-time link: https://<address>:8443/#setup=…
+docker compose logs serverwarden    # https://<address>:8443/#setup=…
 ```
 
-**3. Open the link and follow the wizard.** Language and name, the address you will use,
+The image is signed. To check it before running it (with [cosign](https://docs.sigstore.dev)):
+
+```sh
+cosign verify pedro00100/serverwarden:0.7 \
+  --certificate-identity-regexp '^https://github.com/pedro00100/serverwarden/' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com
+```
+
+**3. Follow the wizard.** Language and name, the address you will use,
 the networks allowed to open the panel, the certificate (generate one or bring your own)
 and your account.
 
@@ -254,6 +260,12 @@ and when not to.
 
 ## Day-to-day
 
+- **Updating.** `docker compose pull && docker compose up -d`. Tags follow semantic
+  versioning: `0.7` gets every fix of 0.7.x, `latest` everything. Settings migrate on
+  their own (a copy of the previous ones is kept). If a release note says the agent
+  changed, run each server's install script again (*Settings › Servers*); it is safe to
+  repeat. The panel never pushes binaries to your servers by itself: a compromised
+  panel must not be able to replace the agent everywhere.
 - **Notifications.** Health alerts fire after a problem lasts a while (2 minutes by
   default), repeat if it goes on and tell you when it is resolved. Each channel picks a
   minimum level and the kinds of events it wants, and can use its own message template.

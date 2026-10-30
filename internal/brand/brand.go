@@ -2,6 +2,9 @@
 // Renaming the project means editing this file.
 package brand
 
+// Version is set at build time (-ldflags -X); "dev" for local builds.
+var Version = "dev"
+
 const (
 	Name  = "serverwarden"
 	Agent = "serverwarden-agent"

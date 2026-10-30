@@ -1,0 +1,106 @@
+# A tag v1.2.3 publishes the image for amd64, arm64 and armv7 to Docker Hub and
+# GHCR (signed with cosign, with SBOM and provenance), and a GitHub release
+# with the binaries and their checksums.
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions: {}
+
+env:
+  IMAGES: |
+    docker.io/pedro00100/serverwarden
+    ghcr.io/${{ github.repository }}
+
+jobs:
+  image:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write # GHCR
+      id-token: write # keyless signing with cosign
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          username: pedro00100
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        with:
+          images: ${{ env.IMAGES }}
+          # 1.2.3, 1.2, 1 and latest; no bare major while in 0.x.
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}},enable=${{ !startsWith(github.ref_name, 'v0.') }}
+          labels: |
+            org.opencontainers.image.title=ServerWarden
+            org.opencontainers.image.vendor=Gefex
+      - id: build
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          build-args: VERSION=${{ steps.meta.outputs.version }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          sbom: true
+          provenance: mode=max
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+      - name: Sign the image in both registries
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          for image in $IMAGES; do
+            cosign sign --yes "$image@$DIGEST"
+          done
+
+  binaries:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write # create the release
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Build the panel and the agents for every CPU
+        env:
+          VERSION: ${{ github.ref_name }}
+          CGO_ENABLED: '0'
+        run: |
+          (cd web && npm ci --no-audit --no-fund && npm run build)
+          rm -rf internal/adapters/web/static && cp -r web/build internal/adapters/web/static
+          ldflags="-s -w -X github.com/pedro00100/serverwarden/internal/brand.Version=${VERSION#v}"
+          mkdir dist
+          for arch in amd64 arm64 arm; do
+            GOOS=linux GOARCH=$arch GOARM=7 go build -trimpath -ldflags="$ldflags" -o dist/serverwarden-linux-$arch ./cmd/panel
+            GOOS=linux GOARCH=$arch GOARM=7 go build -trimpath -ldflags="$ldflags" -o dist/serverwarden-agent-linux-$arch ./cmd/agent
+          done
+          (cd dist && sha256sum -- * > SHA256SUMS)
+      - uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+        with:
+          files: dist/*
+          generate_release_notes: true

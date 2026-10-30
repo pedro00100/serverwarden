@@ -58,10 +58,15 @@ func main() {
 	newEnrollment := flag.Bool("new-enrollment", false, "print a one-time link to register a passkey and exit")
 	resetPassword := flag.Bool("reset-password", false, "set a new password from standard input, switch to password access and exit")
 	health := flag.String("health", "", "check the panel health at this URL and exit (for HEALTHCHECK)")
+	version := flag.Bool("version", false, "print the version and exit")
 	flag.StringVar(&o.secretKey, "secret-key", "", "file with the key that seals stored secrets, created if missing (default <data-dir>/secret.key; can be a Docker or Podman secret)")
 	flag.Parse()
 	log := slog.New(slog.NewTextHandler(os.Stderr, nil))
 
+	if *version {
+		fmt.Println(brand.Name, brand.Version)
+		return
+	}
 	if *health != "" {
 		os.Exit(checkHealth(*health))
 	}
@@ -94,6 +99,7 @@ func main() {
 }
 
 func serveForever(o options, store *config.Store, log *slog.Logger) {
+	log.Info("starting "+brand.Name, "version", brand.Version)
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer cancel()
 	for ctx.Err() == nil {
