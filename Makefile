@@ -58,7 +58,7 @@ install-e2e: image ## the real image, a Debian 13 server and Chromium: add the s
 	ENGINE=$(ENGINE) sh test/install-e2e.sh serverwarden:$(VERSION)
 
 image: ## container image serverwarden:VERSION
-	$(ENGINE) build --build-arg VERSION=$(VERSION) -t serverwarden:$(VERSION) .
+	$(ENGINE) build $(if $(findstring podman,$(ENGINE)),--format docker) --build-arg VERSION=$(VERSION) -t serverwarden:$(VERSION) .
 
 clean: ## remove build output inside the project
 	rm -rf out web/build web/.svelte-kit web/node_modules

@@ -9,6 +9,7 @@ ENGINE=${ENGINE:-podman}
 NET=panel-e2e
 HERE=$(cd "$(dirname "$0")" && pwd)
 W=$(mktemp -d)
+mkdir -p "$HERE/shots" # ignored by git: a fresh clone does not have it
 FAILED=0
 result() { if [ "$1" = 0 ]; then echo "PASS $2"; else echo "FAIL $2"; FAILED=1; fi; }
 cleanup() { $ENGINE rm -f e2e-panel e2e-server e2e-browser >/dev/null 2>&1 || true; $ENGINE network rm $NET >/dev/null 2>&1 || true; }
@@ -56,12 +57,11 @@ $ENGINE logs e2e-browser 2>&1 | grep -v '^npm'
 
 # Secrets at rest in the panel's data directory.
 D=/var/lib/serverwarden
-if [ -s "$W/totp-secret" ]; then
-	! $ENGINE exec e2e-panel grep -q "$(cat "$W/totp-secret")" $D/totp.json; result $? "totp.json does not hold the TOTP secret"
-fi
-[ "$($ENGINE exec e2e-panel stat -c %a $D/totp.json $D/secret.key $D/settings.json | sort -u)" = 600 ]; result $? "secret files are 0600"
+[ -s "$W/totp-secret" ] && $ENGINE exec e2e-panel test -s $D/totp.json && ! $ENGINE exec e2e-panel grep -q "$(cat "$W/totp-secret")" $D/totp.json; result $? "totp.json does not hold the TOTP secret"
+# Every check below fails when the file is missing: absence must never pass.
+[ "$($ENGINE exec e2e-panel stat -c %a $D/totp.json $D/secret.key $D/settings.json 2>&1 | tr '\n' ' ')" = "600 600 600 " ]; result $? "secret files are 0600"
 [ "$($ENGINE exec e2e-panel head -c 7 $D/tls/panel.key)" = "enc:v1:" ]; result $? "the generated TLS key is sealed"
-$ENGINE exec e2e-panel cat $D/ssh/agent | $ENGINE exec -i e2e-server sh -c 'cat > /tmp/k && chmod 600 /tmp/k && ! ssh-keygen -y -P "" -f /tmp/k >/dev/null 2>&1'; result $? "the panel's SSH key does not open without its passphrase"
-! $ENGINE exec e2e-panel grep -rqi 'BEGIN .*PRIVATE KEY' $D/tls; result $? "no private key in plain PEM in the data directory"
+$ENGINE exec e2e-panel cat $D/ssh/agent | $ENGINE exec -i e2e-server sh -c 'cat > /tmp/k && grep -q "BEGIN OPENSSH PRIVATE KEY" /tmp/k && chmod 600 /tmp/k && ! ssh-keygen -y -P "" -f /tmp/k >/dev/null 2>&1'; result $? "the panel's SSH key does not open without its passphrase"
+$ENGINE exec e2e-panel test -s $D/tls/panel.key && ! $ENGINE exec e2e-panel grep -rqi 'BEGIN .*PRIVATE KEY' $D/tls; result $? "no private key in plain PEM in the data directory"
 
 [ "$STATUS" = 0 ] && [ $FAILED = 0 ]
