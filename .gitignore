@@ -1,0 +1,32 @@
+# Build output and dependencies (all reproducible with make)
+/out/
+/web/node_modules/
+/web/.svelte-kit/
+/web/build/
+/internal/adapters/web/static/*
+!/internal/adapters/web/static/index.html
+/test/shots/
+
+# A panel's own data must never be committed: settings, keys, certificates,
+# TOTP and passkey files, scan results. Keep deployments outside this repo.
+/data/
+*.key
+*.pem
+*.crt
+*.p12
+secret.key
+*.secret
+settings.json
+!examples/*/settings.json
+totp.json
+passkeys.json
+known_hosts
+.env
+.env.*
+
+# Local tools
+.idea/
+.vscode/
+*.swp
+.DS_Store
+*.log

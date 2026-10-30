@@ -1,0 +1,23 @@
+# The panel on pantry, reachable only from the home network and the VPN.
+services:
+  panel:
+    image: serverwarden:latest
+    container_name: panel
+    restart: unless-stopped
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp:size=8m,mode=1777
+    volumes:
+      # Settings, passkeys, the panel's SSH identity and scan results.
+      - /srv/panel/data:/var/lib/serverwarden
+      # Only if you bring your own certificate (otherwise the wizard generates one).
+      - /srv/panel/certs:/certs:ro
+    ports:
+      - "10.20.0.12:443:8443"
+    mem_limit: 768m   # the vulnerability scanner needs a few hundred MB while it runs
+    cpus: 1
+    pids_limit: 128

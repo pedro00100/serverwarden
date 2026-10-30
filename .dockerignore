@@ -1,0 +1,13 @@
+# Only what the image build needs reaches the build context.
+.git
+**/node_modules
+web/.svelte-kit
+web/build
+out
+test
+docs
+data
+**/*.key
+**/*.pem
+**/.env
+*.md

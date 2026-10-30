@@ -1,0 +1,18 @@
+{
+  "server": "relay",
+  "action_auth": "passkey",
+  "panel_commands": false,
+  "image_export": false,
+  "actions": {
+    "check-updates": {
+      "name": "Check for updates",
+      "description": "Refreshes the package list (installs nothing)",
+      "command": ["/usr/bin/apt-get", "update", "-qq"]
+    },
+    "reload-proxy": {
+      "name": "Reload the reverse proxy",
+      "description": "Applies a new configuration without dropping connections",
+      "command": ["/usr/bin/docker", "exec", "caddy", "caddy", "reload", "--config", "/etc/caddy/Caddyfile"]
+    }
+  }
+}

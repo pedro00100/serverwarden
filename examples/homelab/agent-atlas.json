@@ -1,0 +1,13 @@
+{
+  "server": "atlas",
+  "action_auth": "passkey",
+  "panel_commands": true,
+  "image_export": false,
+  "actions": {
+    "restart-jellyfin": {
+      "name": "Restart Jellyfin",
+      "description": "Interrupts ongoing playback for a few seconds",
+      "command": ["/usr/bin/docker", "restart", "jellyfin"]
+    }
+  }
+}

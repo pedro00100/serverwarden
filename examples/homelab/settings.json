@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "general": {
+    "title": "Juniper Lab",
+    "description": "A VPS in front, a home server and a NAS. All names and addresses are made up.",
+    "language": "en",
+    "interval_sec": 15
+  },
+  "web": {
+    "listen": ":8443",
+    "origin": "https://panel.juniper.example",
+    "certificate": "/certs/fullchain.pem",
+    "key": "/certs/privkey.pem",
+    "allowed": ["10.20.0.0/24", "10.99.0.0/24"]
+  },
+  "access": {
+    "mode": "passkey",
+    "username": "admin"
+  },
+  "notifications": {
+    "alerts": { "pending_sec": 120, "repeat_min": 360, "resolved": true },
+    "channels": [
+      {
+        "id": "phone",
+        "name": "Phone (ntfy)",
+        "type": "ntfy",
+        "enabled": true,
+        "min_level": "warning",
+        "events": [],
+        "template": "",
+        "settings": { "server": "https://ntfy.sh", "topic": "juniper-lab-alerts" }
+      }
+    ]
+  },
+  "servers": [
+    {
+      "id": "relay",
+      "name": "relay",
+      "short": "RLY",
+      "role": "Reverse proxy · WireGuard",
+      "location": "Cloud VPS",
+      "layer": "edge",
+      "ssh": { "host": "10.99.0.1", "port": 22, "user": "root" }
+    },
+    {
+      "id": "atlas",
+      "name": "atlas",
+      "short": "ATL",
+      "role": "Media · home automation",
+      "location": "Home",
+      "layer": "internal",
+      "ssh": { "host": "10.20.0.11", "port": 22, "user": "root" }
+    },
+    {
+      "id": "pantry",
+      "name": "pantry",
+      "short": "NAS",
+      "role": "Storage · backups · this panel",
+      "location": "Home",
+      "layer": "internal",
+      "ssh": { "host": "10.20.0.12", "port": 22, "user": "root" }
+    }
+  ],
+  "manual_actions": [
+    { "name": "Reboot a server", "description": "Stops every service for a minute or two", "command": "sudo systemctl reboot" },
+    { "name": "Install system updates", "description": "Can restart services", "command": "sudo apt update && sudo apt upgrade" },
+    { "name": "Update a container image", "description": "Run it in the compose directory", "command": "docker compose pull && docker compose up -d" }
+  ],
+  "commands": [
+    { "id": "restart-mqtt", "name": "Restart the MQTT broker", "description": "Brings Home Assistant's broker back", "command": "docker restart mosquitto", "servers": ["atlas"] },
+    { "id": "disk-hogs", "name": "What fills the disk", "description": "", "command": "df -h / && du -sh /var/lib/docker /var/log 2>/dev/null", "servers": [] }
+  ],
+  "scanner": {
+    "enabled": true,
+    "time": "03:00",
+    "timezone": "Europe/Berlin",
+    "skip_images": false
+  }
+}

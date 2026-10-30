@@ -1,0 +1,59 @@
+/* Design tokens. Every color, radius and font the UI uses is defined here, so a
+   new theme only needs a new version of this file. */
+:root {
+	--bg: #0a0f15;
+	--bg-2: #0c121a;
+	--surface: #121a23;
+	--surface-2: #0f161e;
+	--surface-sunken: #0e151d;
+	--border: #1f2b37;
+	--border-soft: #1a2531;
+	--border-strong: #2c3d4f;
+	--divider: #18222d;
+	--hover: #16212c;
+	--row-hover: #141e28;
+	--track: #1c2733;
+	--chip-border: #22303d;
+	--code-bg: #0b1117;
+	--nav-glass: rgba(12, 18, 26, 0.96);
+
+	--text: #e8eef4;
+	--text-2: #c9d4de;
+	--text-3: #b8c4cf;
+	--muted: #93a1af;
+
+	--accent: #4cc9f0;
+	--accent-2: #7dd3f5;
+	--accent-bg: #14283a;
+	--button: #2a6a9e;
+	--button-hover: #3b82b8;
+	--button-soft-hover: #1d4a70;
+	--on-button: #fff;
+	--on-accent: #06202b;
+	--badge: #16324a;
+	--badge-muted: #1e2a36;
+
+	--ok: #34d399;
+	--ok-text: #6ee7b7;
+	--ok-bg: #0f2a21;
+	--ok-fill: #0f1f1a;
+	--warning: #f5b041;
+	--warning-text: #f5c56b;
+	--warning-bg: #3b2a0f;
+	--warning-fill: #2a1f0c;
+	--warning-border: #6b4e17;
+	--critical: #f87171;
+	--critical-text: #fca5a5;
+	--critical-bg: #3b1414;
+	--critical-fill: #2a1010;
+	--critical-border: #7a2a2a;
+	--severity-medium: #8fa6bc;
+	--severity-low: #3a4c5e;
+	--severity-low-bg: #172029;
+
+	--radius: 18px;
+	--font-sans: 'Inter Variable', system-ui, sans-serif;
+	--font-display: 'Space Grotesk', system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, monospace;
+	color-scheme: dark;
+}

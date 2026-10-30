@@ -1,0 +1,18 @@
+{
+  "server": "pantry",
+  "action_auth": "passkey",
+  "panel_commands": true,
+  "image_export": true,
+  "actions": {
+    "backup-atlas": {
+      "name": "Back up atlas now",
+      "description": "Runs the nightly restic job immediately",
+      "command": ["/usr/bin/systemctl", "start", "--no-block", "backup@atlas.service"]
+    }
+  },
+  "backups": [
+    { "name": "atlas", "repository": "/srv/backups/atlas", "password_file": "/root/.restic/atlas" },
+    { "name": "relay", "repository": "/srv/backups/relay", "password_file": "/root/.restic/relay" }
+  ],
+  "notify": ["/usr/bin/curl", "-fsS", "-d", "{level}: {text}", "https://ntfy.sh/juniper-lab-actions"]
+}
