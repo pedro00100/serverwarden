@@ -35,6 +35,10 @@ The project is responsible for what it controls:
   unless the server's root-owned `agent.json` allows it.
 - **Supply chain.** The agent and Trivy are downloaded with pinned certificates or
   checksums. Dependencies are few, pinned and checked by `go mod verify`.
+- **Outbound connections.** None unless you turn them on: the vulnerability scanner
+  (downloads Trivy and its database, pulls the images it scans) and the daily check for
+  a new version, which asks `api.github.com` for the latest release tag, sends nothing
+  about the panel, accepts only a plain `vX.Y.Z` answer and never installs anything.
 
 ## What you are responsible for
 

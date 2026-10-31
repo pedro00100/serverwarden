@@ -26,6 +26,7 @@ import (
 	"github.com/pedro00100/serverwarden/internal/adapters/notify"
 	"github.com/pedro00100/serverwarden/internal/adapters/passkey"
 	"github.com/pedro00100/serverwarden/internal/adapters/password"
+	"github.com/pedro00100/serverwarden/internal/adapters/release"
 	"github.com/pedro00100/serverwarden/internal/adapters/secrets"
 	"github.com/pedro00100/serverwarden/internal/adapters/sshagent"
 	"github.com/pedro00100/serverwarden/internal/adapters/sshkeys"
@@ -189,15 +190,17 @@ func run(parent context.Context, o options, store *config.Store, log *slog.Logge
 	settings := app.NewSettings(store, notify.Registry{Dispatcher: dispatcher}, auth, dispatcher, restart)
 	installer := install.New(o.agentsDir, func() string { return store.Get().Web.Certificate })
 	servers := app.NewServers(store, auth, sshkeys.Identity{Keys: keys}, installer, source, dispatcher)
+	updates := app.NewUpdates(func() bool { return store.Get().General.UpdateCheck }, release.New(), dispatcher, brand.Version, log)
 
 	srv, err := web.New(c, store.Get, web.Services{Monitor: monitor, Auth: auth, Vulns: vulns, Actions: actions,
-		Settings: settings, Servers: servers, Installer: installer, Scanner: scanner, Secrets: o.box}, log)
+		Settings: settings, Servers: servers, Installer: installer, Scanner: scanner, Updates: updates, Secrets: o.box}, log)
 	if err != nil {
 		return err
 	}
 	go monitor.Run(ctx)
 	go vulns.Run(ctx)
 	go scanner.Run(ctx)
+	go updates.Run(ctx)
 	if err := srv.Serve(ctx); err != nil {
 		return err
 	}

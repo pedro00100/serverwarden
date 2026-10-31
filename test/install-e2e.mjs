@@ -102,6 +102,7 @@ const live = await until(90, async () => {
 	return page.$eval('.detail', (e) => e.textContent.includes('Debian GNU/Linux 13'));
 });
 result(live, 'Servers shows live data read by the agent (Debian GNU/Linux 13)');
+result(!(await page.$('.card.update')), 'no update banner: the check is off by default');
 const agent = await page.$$eval('.detail .facts div', (rows) => {
 	const r = rows.find((d) => /^(Agent|Agente)$/.test(d.querySelector('dt')?.textContent.trim()));
 	return r && { text: r.querySelector('dd').textContent.trim(), warn: r.querySelector('dd').classList.contains('text-warning') };

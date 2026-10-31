@@ -6,6 +6,7 @@ const INTERVAL_MS = 10_000;
 export function createDashboard(session) {
 	let view = $state(null);
 	let description = $state('');
+	let update = $state(null);
 	let error = $state(null);
 	let updatedAt = $state(null);
 	let now = $state(Date.now());
@@ -16,6 +17,7 @@ export function createDashboard(session) {
 			const r = await get('/api/state');
 			view = r.view;
 			description = r.description;
+			update = r.update ?? null;
 			error = null;
 			updatedAt = Date.now();
 		} catch (e) {
@@ -31,6 +33,7 @@ export function createDashboard(session) {
 	return {
 		get view() { return view; },
 		get description() { return description; },
+		get update() { return update; },
 		get error() { return error; },
 		get secondsAgo() {
 			return updatedAt ? Math.max(0, Math.round((now - updatedAt) / 1000)) : null;

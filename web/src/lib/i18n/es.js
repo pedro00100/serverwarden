@@ -2,7 +2,9 @@ export default {
 	app: {
 		checking: 'Comprobando la sesión…',
 		connecting: 'Conectando con los servidores…',
-		staleData: 'mostrando los últimos datos recibidos'
+		staleData: 'mostrando los últimos datos recibidos',
+		update: 'Ya está disponible la versión {version} del panel.',
+		updateNotes: 'Novedades'
 	},
 	nav: {
 		label: 'Secciones',
@@ -313,7 +315,9 @@ export default {
 			description: 'Nota bajo la topología',
 			language: 'Idioma',
 			languageHelp: 'Lo usan el panel y sus notificaciones.',
-			interval: 'Intervalo de consulta (segundos)'
+			interval: 'Intervalo de consulta (segundos)',
+			updateCheck: 'Comprobar versiones nuevas',
+			updateCheckHelp: 'Una vez al día el panel pregunta a GitHub (api.github.com) por la última versión y te avisa aquí y en tus notificaciones. GitHub ve tu IP pública y nada más del panel ni de tus servidores. Nunca se instala nada solo.'
 		},
 		access: {
 			mode: 'Forma de entrar',
@@ -411,7 +415,7 @@ export default {
 			levels: { info: 'Info', warning: 'Aviso', alert: 'Alerta' },
 			events: 'Eventos',
 			eventsHelp: 'Sin seleccionar significa todos.',
-			kinds: { login: 'Accesos', action: 'Acciones', health: 'Salud de servidores', cve: 'Vulnerabilidades', settings: 'Cambios de ajustes', test: 'Pruebas' },
+			kinds: { login: 'Accesos', action: 'Acciones', health: 'Salud de servidores', cve: 'Vulnerabilidades', settings: 'Cambios de ajustes', update: 'Versiones nuevas', test: 'Pruebas' },
 			template: 'Plantilla del mensaje',
 			templateHelp: 'Opcional. Variables: {vars}. Vacía usa la predeterminada.',
 			secretSet: 'Guardado · déjalo así para conservarlo',

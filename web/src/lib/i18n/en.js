@@ -2,7 +2,9 @@ export default {
 	app: {
 		checking: 'Checking your session…',
 		connecting: 'Connecting to the servers…',
-		staleData: 'showing the last data received'
+		staleData: 'showing the last data received',
+		update: 'Version {version} of the panel is available.',
+		updateNotes: 'What\'s new'
 	},
 	nav: {
 		label: 'Sections',
@@ -313,7 +315,9 @@ export default {
 			description: 'Note under the topology',
 			language: 'Language',
 			languageHelp: 'Used by the panel and by its notifications.',
-			interval: 'Polling interval (seconds)'
+			interval: 'Polling interval (seconds)',
+			updateCheck: 'Check for new versions',
+			updateCheckHelp: 'Once a day the panel asks GitHub (api.github.com) for the latest release and tells you here and in your notifications. GitHub sees your public IP address and nothing else about the panel or your servers. Nothing is ever installed by itself.'
 		},
 		access: {
 			mode: 'Sign-in method',
@@ -411,7 +415,7 @@ export default {
 			levels: { info: 'Info', warning: 'Warning', alert: 'Alert' },
 			events: 'Events',
 			eventsHelp: 'None selected means all.',
-			kinds: { login: 'Sign-ins', action: 'Actions', health: 'Server health', cve: 'Vulnerabilities', settings: 'Settings changes', test: 'Tests' },
+			kinds: { login: 'Sign-ins', action: 'Actions', health: 'Server health', cve: 'Vulnerabilities', settings: 'Settings changes', update: 'New versions', test: 'Tests' },
 			template: 'Message template',
 			templateHelp: 'Optional. Variables: {vars}. Leave empty for the default.',
 			secretSet: 'Stored · leave as is to keep it',

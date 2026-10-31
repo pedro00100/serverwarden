@@ -81,7 +81,7 @@ const unlock = () => {
 const language = process.env.MOCK_LANG || 'en';
 
 const settings = {
-	general: { title: 'Homelab', description: 'Sample data: run against a real panel to see your own servers.', language, interval_sec: 15 },
+	general: { title: 'Homelab', description: 'Sample data: run against a real panel to see your own servers.', language, interval_sec: 15, update_check: true },
 	web: { listen: ':8443', origin: 'https://panel.home.arpa', certificate: '/etc/panel/cert.pem', key: '/etc/panel/key.pem', allowed: ['192.168.1.0/24', '127.0.0.1/32'] },
 	access: { mode: 'password', username: 'admin', has_password: true, totp: false, recovery_left: 0, passkeys: [{ id: 'abc', name: 'Main key', created: daysAgo(30), last_used: hoursAgo(3) }] },
 	notifications: {
@@ -166,7 +166,8 @@ export const responses = {
 	},
 	'/api/state': () => ({
 		view: { servers, level: 'warning', score: 76, generated_at: now() },
-		description: 'Sample data: run against a real panel to see your own servers.'
+		description: 'Sample data: run against a real panel to see your own servers.',
+		update: settings.general.update_check ? { version: '0.8.0', url: 'https://github.com/pedro00100/serverwarden/releases/tag/v0.8.0' } : null
 	}),
 	'/api/actions': () => ({
 		actions: [

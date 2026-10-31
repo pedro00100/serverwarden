@@ -110,6 +110,11 @@ type PackageReader interface {
 	ExportImage(ctx context.Context, serverID, imageID string, dst io.Writer) error
 }
 
+// ReleaseSource tells the newest published version of the panel, as "1.2.3".
+type ReleaseSource interface {
+	Latest(ctx context.Context) (string, error)
+}
+
 type Notifier interface {
 	Notify(e domain.Event)
 }

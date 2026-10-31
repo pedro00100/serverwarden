@@ -30,6 +30,11 @@ for (const s of ['overview', 'servers', 'security', 'vulnerabilities', 'actions'
 	await shot(s);
 }
 
+// A newer release is announced, linking to its notes on GitHub.
+const update = await page.$eval('.card.update a', (a) => a.href).catch(() => '');
+console.log('update banner:', update);
+if (!update.startsWith('https://github.com/pedro00100/serverwarden/releases/tag/v')) errors.push('update banner missing');
+
 // Tabs switch sections without reloading.
 await page.goto(base + '#overview', { waitUntil: 'networkidle0' });
 await settle();
@@ -127,6 +132,7 @@ for (let i = 0; i < pages.length; i++) {
 	const inputs = await page.$$eval('main input, main select, main textarea', (els) => els.length);
 	const disabled = await page.$$eval('main fieldset[disabled]', (els) => els.length);
 	console.log(`settings ${pages[i]}: ${inputs} inputs, ${disabled} disabled fieldsets, hash ${await page.evaluate(() => location.hash)}`);
+	if (i === 0 && !(await page.$('main input[type=checkbox]'))) errors.push('General has no update check');
 	await shot('settings-' + i);
 }
 // Add a command and save it.

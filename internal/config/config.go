@@ -67,6 +67,7 @@ type General struct {
 	Description string `json:"description"`
 	Language    string `json:"language"` // default UI and notification language
 	IntervalSec int    `json:"interval_sec"`
+	UpdateCheck bool   `json:"update_check"` // ask GitHub once a day for a newer release
 }
 
 type Web struct {
@@ -150,7 +151,7 @@ var DefaultManualActions = []domain.ManualAction{
 }
 
 var (
-	EventKinds = []string{"login", "action", "health", "cve", "settings", "test"}
+	EventKinds = []string{"login", "action", "health", "cve", "settings", "update", "test"}
 	Levels     = []string{"info", "warning", "alert"}
 	Languages  = []string{"en", "es"}
 	idRe       = regexp.MustCompile(`^[a-z0-9][a-z0-9_-]{0,31}$`)

@@ -185,7 +185,7 @@ docker compose run --rm panel -import /var/lib/serverwarden/my-settings.json
 
 | Section | What it holds |
 |---|---|
-| `general` | Title, language, polling interval. |
+| `general` | Title, language, polling interval, daily check for a new version (off by default). |
 | `web` | Listen address, public origin, certificate, allowed networks. |
 | `access` | `passkey` or `password`, username. Two-step verification is turned on in *Settings › Access* and kept apart, in `totp.json`. |
 | `notifications` | Alert policy (wait before alerting, repeat, notify when resolved) and channels. |
@@ -264,7 +264,11 @@ and when not to.
   versioning: `0.7` gets every fix of 0.7.x, `latest` everything. Settings migrate on
   their own (a copy of the previous ones is kept). Each server's detail shows its agent's
   version, and the panel warns when one does not match its own: run that server's install
-  script again (*Settings › Servers*); it is safe to repeat. The panel never pushes binaries to your servers by itself: a compromised
+  script again (*Settings › Servers*); it is safe to repeat. To hear about new releases,
+  turn on *Check for new versions* in *Settings › General*: once a day the panel asks
+  GitHub for the latest release (GitHub sees your public IP, nothing else) and tells you
+  in the panel and through the channels that take *New versions*. It is off by default and
+  never installs anything. The panel never pushes binaries to your servers by itself: a compromised
   panel must not be able to replace the agent everywhere.
 - **Notifications.** Health alerts fire after a problem lasts a while (2 minutes by
   default), repeat if it goes on and tell you when it is resolved. Each channel picks a

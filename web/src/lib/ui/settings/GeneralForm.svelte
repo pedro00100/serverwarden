@@ -21,4 +21,8 @@
 		<span class="help">{t('settings.general.languageHelp')}</span>
 	</label>
 	<label class="field"><span>{t('settings.general.interval')}</span><input class="input" type="number" min="5" max="3600" bind:value={draft.interval_sec} required /></label>
+	<div class="field">
+		<label class="check"><input type="checkbox" bind:checked={draft.update_check} />{t('settings.general.updateCheck')}</label>
+		<span class="help">{t('settings.general.updateCheckHelp')}</span>
+	</div>
 </Section>

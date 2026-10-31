@@ -9,6 +9,7 @@ const (
 	Name  = "serverwarden"
 	Agent = "serverwarden-agent"
 	Title = "Control center"
+	Repo  = "pedro00100/" + Name // on GitHub: releases and the update check
 
 	ConfigDir       = "/etc/" + Name
 	DataDir         = "/var/lib/" + Name

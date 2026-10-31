@@ -3,7 +3,7 @@
 
 	const MASKED = '••••••••';
 	const LEVELS = ['info', 'warning', 'alert'];
-	const KINDS = ['login', 'action', 'health', 'cve', 'settings', 'test'];
+	const KINDS = ['login', 'action', 'health', 'cve', 'settings', 'update', 'test'];
 	const VARS = '{{.Icon}} {{.Title}} {{.Text}} {{.Server}} {{.Level}} {{.Kind}} {{.Panel}} {{.Time}} {{.Resolved}}';
 
 	let { channel = $bindable(), type, settings, onRemove } = $props();

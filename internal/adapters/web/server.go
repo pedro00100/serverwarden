@@ -37,6 +37,7 @@ type Server struct {
 	servers      *app.Servers
 	installer    *install.Installer
 	scanner      *app.Scanner
+	updates      *app.Updates
 	log          *slog.Logger
 	cert         *certReloader
 	loginLimit   *rateLimit
@@ -56,12 +57,13 @@ type Services struct {
 	Servers   *app.Servers
 	Installer *install.Installer
 	Scanner   *app.Scanner
+	Updates   *app.Updates
 	Secrets   *secrets.Box
 }
 
 func New(running *config.Config, settings func() *config.Config, sv Services, log *slog.Logger) (*Server, error) {
 	s := &Server{running: running, settings: settings, monitor: sv.Monitor, auth: sv.Auth, vulns: sv.Vulns, actions: sv.Actions,
-		prefs: sv.Settings, servers: sv.Servers, installer: sv.Installer, scanner: sv.Scanner, log: log,
+		prefs: sv.Settings, servers: sv.Servers, installer: sv.Installer, scanner: sv.Scanner, updates: sv.Updates, log: log,
 		loginLimit: newRateLimit(10, 5*time.Minute), actionsLimit: newRateLimit(20, 10*time.Minute)}
 	r, err := newCertReloader(running.Web.Certificate, running.Web.Key, sv.Secrets, log)
 	if err != nil {
@@ -82,7 +84,7 @@ func (s *Server) Serve(ctx context.Context) error {
 	s.actionRoutes(mux)
 	s.settingsRoutes(mux)
 	mux.HandleFunc("GET /api/state", s.authenticated(func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, map[string]any{"view": s.monitor.View(), "description": s.settings().General.Description})
+		writeJSON(w, map[string]any{"view": s.monitor.View(), "description": s.settings().General.Description, "update": s.updates.Available()})
 	}))
 	mux.HandleFunc("GET /api/cve", s.authenticated(func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, map[string]any{"report": s.vulns.Report(), "scan": s.scanner.Status()})

@@ -5,7 +5,7 @@ import "time"
 // Event is something worth notifying. Key and Args identify the message so it
 // can be rendered in the configured language.
 type Event struct {
-	Kind     string    `json:"kind"`  // login | action | health | cve | settings | test
+	Kind     string    `json:"kind"`  // login | action | health | cve | settings | update | test
 	Level    string    `json:"level"` // info | warning | alert
 	Server   string    `json:"server,omitempty"`
 	Key      string    `json:"key"`

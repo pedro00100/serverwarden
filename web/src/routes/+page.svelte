@@ -64,6 +64,9 @@
 		{#if dashboard.error}
 			<div class="card alert" role="alert">{errorText(dashboard.error)}{dashboard.view ? ' · ' + t('app.staleData') : ''}</div>
 		{/if}
+		{#if dashboard.update?.url.startsWith('https://github.com/')}
+			<p class="card update">{t('app.update', { version: dashboard.update.version })} <a href={dashboard.update.url} target="_blank" rel="noopener noreferrer">{t('app.updateNotes')}</a></p>
+		{/if}
 
 		{#if router.current === 'settings'}
 			<Settings {settings} mode={session.mode} view={dashboard.view} page={router.sub} onOpen={(p) => router.go('settings', p)} />
@@ -86,5 +89,7 @@
 <style>
 	.center { min-height: 100vh; display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--text-2); }
 	.alert { padding: 12px 16px; border-color: var(--critical-border); color: var(--critical-text); }
+	.update { padding: 12px 16px; border-color: var(--accent-bg); color: var(--text-2); }
+	.update a { color: var(--accent-2); }
 	.loading { padding: 20px; display: flex; align-items: center; gap: 12px; color: var(--text-2); }
 </style>
