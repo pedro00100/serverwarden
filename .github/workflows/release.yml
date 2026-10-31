@@ -48,6 +48,10 @@ jobs:
           labels: |
             org.opencontainers.image.title=ServerWarden
             org.opencontainers.image.vendor=Gefex
+        env:
+          # The description (taken from the repository) also on the multi-arch
+          # index, which is what GHCR shows.
+          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
       - id: build
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
@@ -56,6 +60,7 @@ jobs:
           build-args: VERSION=${{ steps.meta.outputs.version }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
           sbom: true
           provenance: mode=max
           push: true
