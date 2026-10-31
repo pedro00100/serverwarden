@@ -1,9 +1,9 @@
 <script>
 	import { tick } from 'svelte';
-	import { t } from '$lib/i18n/index.svelte.js';
-	import { ago, dateTime } from '$lib/i18n/format.js';
+	import { t } from '#lib/i18n/index.svelte.js';
+	import { ago, dateTime } from '#lib/i18n/format.js';
 	import Logo from './primitives/Logo.svelte';
-	import { PRODUCT, MAKER } from '$lib/core/brand.js';
+	import { PRODUCT, MAKER } from '#lib/core/brand.js';
 
 	let { title, mode, sections, current, onNavigate, level, secondsAgo, onRefresh, onLogout, children } = $props();
 

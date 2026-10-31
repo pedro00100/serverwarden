@@ -1,5 +1,5 @@
 <script>
-	import { t, errorText } from '$lib/i18n/index.svelte.js';
+	import { t, errorText } from '#lib/i18n/index.svelte.js';
 
 	const MASKED = '••••••••';
 	const LEVELS = ['info', 'warning', 'alert'];

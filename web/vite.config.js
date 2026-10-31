@@ -1,3 +1,4 @@
+import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
@@ -24,5 +25,24 @@ const mockApi = {
 };
 
 export default defineConfig({
-	plugins: [sveltekit(), process.env.MOCK === '1' && mockApi]
+	plugins: [
+		sveltekit({
+			// Static UI: the Go binary embeds and serves it.
+			adapter: adapter({ pages: 'build', assets: 'build', fallback: 'index.html' }),
+			// Hash-based CSP for the scripts SvelteKit generates (no 'unsafe-inline' for scripts).
+			// frame-ancestors and the rest go in the server's HTTP header (they don't fit in <meta>).
+			csp: {
+				mode: 'hash',
+				directives: {
+					'default-src': ['self'],
+					'script-src': ['self'],
+					'style-src': ['self', 'unsafe-inline'],
+					'img-src': ['self', 'data:'],
+					'font-src': ['self'],
+					'connect-src': ['self']
+				}
+			}
+		}),
+		process.env.MOCK === '1' && mockApi
+	]
 });

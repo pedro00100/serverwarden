@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { t, errorText, languages } from '$lib/i18n/index.svelte.js';
+	import { t, errorText, languages } from '#lib/i18n/index.svelte.js';
 	import UnlockBar from '../settings/UnlockBar.svelte';
 	import GeneralForm from '../settings/GeneralForm.svelte';
 	import AccessForm from '../settings/AccessForm.svelte';

@@ -1,6 +1,6 @@
 <script>
 	import { onMount, tick } from 'svelte';
-	import { t, errorText } from '$lib/i18n/index.svelte.js';
+	import { t, errorText } from '#lib/i18n/index.svelte.js';
 	import ServerNode from '../primitives/ServerNode.svelte';
 
 	let { actions, settings, mode, view, selected = '', onSelect, onNavigate } = $props();

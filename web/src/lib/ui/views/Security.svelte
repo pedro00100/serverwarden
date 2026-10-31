@@ -1,7 +1,7 @@
 <script>
-	import { t } from '$lib/i18n/index.svelte.js';
-	import { bytes, number, agoDate, dateTime, clock } from '$lib/i18n/format.js';
-	import { securitySummary, securityEvents, hoursSince } from '$lib/core/derive.js';
+	import { t } from '#lib/i18n/index.svelte.js';
+	import { bytes, number, agoDate, dateTime, clock } from '#lib/i18n/format.js';
+	import { securitySummary, securityEvents, hoursSince } from '#lib/core/derive.js';
 
 	let { view, onNavigate } = $props();
 

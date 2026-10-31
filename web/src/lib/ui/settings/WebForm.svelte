@@ -1,6 +1,6 @@
 <script>
 	import { untrack } from 'svelte';
-	import { t } from '$lib/i18n/index.svelte.js';
+	import { t } from '#lib/i18n/index.svelte.js';
 	import Section from './Section.svelte';
 
 	let { settings } = $props();

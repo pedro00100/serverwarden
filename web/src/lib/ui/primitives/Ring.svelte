@@ -1,5 +1,5 @@
 <script>
-	import { usageTone } from '$lib/core/derive.js';
+	import { usageTone } from '#lib/core/derive.js';
 
 	let { value = 0, size = 78, stroke = 9, label = '', color = null, center = null } = $props();
 	const C = 2 * Math.PI * 42;

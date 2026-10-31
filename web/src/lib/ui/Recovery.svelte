@@ -1,7 +1,7 @@
 <script>
 	import MeshBackdrop from './primitives/MeshBackdrop.svelte';
 	import { onMount, untrack } from 'svelte';
-	import { t, errorText } from '$lib/i18n/index.svelte.js';
+	import { t, errorText } from '#lib/i18n/index.svelte.js';
 	import Logo from './primitives/Logo.svelte';
 
 	let { recovery, code = '', authenticated } = $props();

@@ -4,8 +4,8 @@
 	import '@fontsource/space-grotesk/700.css';
 	import '@fontsource/jetbrains-mono/400.css';
 	import '@fontsource/jetbrains-mono/500.css';
-	import '$lib/theme/tokens.css';
-	import '$lib/theme/base.css';
+	import '#lib/theme/tokens.css';
+	import '#lib/theme/base.css';
 
 	let { children } = $props();
 </script>

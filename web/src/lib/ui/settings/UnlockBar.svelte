@@ -1,5 +1,5 @@
 <script>
-	import { t, errorText } from '$lib/i18n/index.svelte.js';
+	import { t, errorText } from '#lib/i18n/index.svelte.js';
 
 	let { settings, mode } = $props();
 

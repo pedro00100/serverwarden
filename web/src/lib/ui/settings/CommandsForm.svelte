@@ -1,7 +1,7 @@
 <script>
 	import { untrack } from 'svelte';
-	import { t } from '$lib/i18n/index.svelte.js';
-	import { AGENT_CONFIG } from '$lib/core/brand.js';
+	import { t } from '#lib/i18n/index.svelte.js';
+	import { AGENT_CONFIG } from '#lib/core/brand.js';
 	import Section from './Section.svelte';
 
 	let { settings, view } = $props();

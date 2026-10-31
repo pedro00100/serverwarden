@@ -1,7 +1,7 @@
 <script>
-	import { t, findingText } from '$lib/i18n/index.svelte.js';
-	import { celsius } from '$lib/i18n/format.js';
-	import { summarize, topology, containerStatus, nodeLabel } from '$lib/core/derive.js';
+	import { t, findingText } from '#lib/i18n/index.svelte.js';
+	import { celsius } from '#lib/i18n/format.js';
+	import { summarize, topology, containerStatus, nodeLabel } from '#lib/core/derive.js';
 	import Ring from '../primitives/Ring.svelte';
 	import ServerNode from '../primitives/ServerNode.svelte';
 	import Kpi from '../primitives/Kpi.svelte';

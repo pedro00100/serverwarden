@@ -1,8 +1,8 @@
 <script>
 	import MeshBackdrop from './primitives/MeshBackdrop.svelte';
-	import { t, errorText } from '$lib/i18n/index.svelte.js';
-	import { supported } from '$lib/core/webauthn.js';
-	import { NAME, PRODUCT, MAKER } from '$lib/core/brand.js';
+	import { t, errorText } from '#lib/i18n/index.svelte.js';
+	import { supported } from '#lib/core/webauthn.js';
+	import { NAME, PRODUCT, MAKER } from '#lib/core/brand.js';
 	import Logo from './primitives/Logo.svelte';
 	import CodeInput from './primitives/CodeInput.svelte';
 

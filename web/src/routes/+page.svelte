@@ -1,24 +1,24 @@
 <script>
 	import { onMount } from 'svelte';
-	import { createSession } from '$lib/core/session.svelte.js';
-	import { createDashboard } from '$lib/core/dashboard.svelte.js';
-	import { createCVE } from '$lib/core/cve.svelte.js';
-	import { createActions } from '$lib/core/actions.svelte.js';
-	import { createRouter } from '$lib/core/router.svelte.js';
-	import { createSettings } from '$lib/core/settings.svelte.js';
-	import { createRecovery } from '$lib/core/recovery.svelte.js';
-	import { createSetup } from '$lib/core/setup.svelte.js';
-	import { i18n, t, errorText } from '$lib/i18n/index.svelte.js';
-	import Shell from '$lib/ui/Shell.svelte';
-	import Login from '$lib/ui/Login.svelte';
-	import Overview from '$lib/ui/views/Overview.svelte';
-	import Servers from '$lib/ui/views/Servers.svelte';
-	import Security from '$lib/ui/views/Security.svelte';
-	import Vulnerabilities from '$lib/ui/views/Vulnerabilities.svelte';
-	import Actions from '$lib/ui/views/Actions.svelte';
-	import Settings from '$lib/ui/views/Settings.svelte';
-	import Recovery from '$lib/ui/Recovery.svelte';
-	import Setup from '$lib/ui/Setup.svelte';
+	import { createSession } from '#lib/core/session.svelte.js';
+	import { createDashboard } from '#lib/core/dashboard.svelte.js';
+	import { createCVE } from '#lib/core/cve.svelte.js';
+	import { createActions } from '#lib/core/actions.svelte.js';
+	import { createRouter } from '#lib/core/router.svelte.js';
+	import { createSettings } from '#lib/core/settings.svelte.js';
+	import { createRecovery } from '#lib/core/recovery.svelte.js';
+	import { createSetup } from '#lib/core/setup.svelte.js';
+	import { i18n, t, errorText } from '#lib/i18n/index.svelte.js';
+	import Shell from '#lib/ui/Shell.svelte';
+	import Login from '#lib/ui/Login.svelte';
+	import Overview from '#lib/ui/views/Overview.svelte';
+	import Servers from '#lib/ui/views/Servers.svelte';
+	import Security from '#lib/ui/views/Security.svelte';
+	import Vulnerabilities from '#lib/ui/views/Vulnerabilities.svelte';
+	import Actions from '#lib/ui/views/Actions.svelte';
+	import Settings from '#lib/ui/views/Settings.svelte';
+	import Recovery from '#lib/ui/Recovery.svelte';
+	import Setup from '#lib/ui/Setup.svelte';
 
 	const sections = ['overview', 'servers', 'security', 'vulnerabilities', 'actions', 'settings'];
 

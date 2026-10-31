@@ -1,6 +1,6 @@
 <script>
 	import { onDestroy } from 'svelte';
-	import { t, errorText } from '$lib/i18n/index.svelte.js';
+	import { t, errorText } from '#lib/i18n/index.svelte.js';
 	import CodeInput from '../primitives/CodeInput.svelte';
 
 	let { settings } = $props();

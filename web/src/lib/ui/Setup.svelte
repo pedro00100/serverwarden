@@ -1,9 +1,9 @@
 <script>
 	import { onMount, untrack, tick } from 'svelte';
-	import { t, errorText, languages, i18n } from '$lib/i18n/index.svelte.js';
-	import { PRODUCT, MAKER } from '$lib/core/brand.js';
-	import { number } from '$lib/i18n/format.js';
-	import { analyze, covers } from '$lib/core/network.js';
+	import { t, errorText, languages, i18n } from '#lib/i18n/index.svelte.js';
+	import { PRODUCT, MAKER } from '#lib/core/brand.js';
+	import { number } from '#lib/i18n/format.js';
+	import { analyze, covers } from '#lib/core/network.js';
 	import MeshBackdrop from './primitives/MeshBackdrop.svelte';
 
 	let { setup, code = '', authenticated } = $props();

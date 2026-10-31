@@ -1,7 +1,7 @@
 <script>
 	import { untrack } from 'svelte';
-	import { t, errorText } from '$lib/i18n/index.svelte.js';
-	import { dateTime } from '$lib/i18n/format.js';
+	import { t, errorText } from '#lib/i18n/index.svelte.js';
+	import { dateTime } from '#lib/i18n/format.js';
 	import Section from './Section.svelte';
 	import TotpForm from './TotpForm.svelte';
 

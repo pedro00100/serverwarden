@@ -1,7 +1,7 @@
 <script>
-	import { t, findingText } from '$lib/i18n/index.svelte.js';
-	import { bytes, duration, celsius, number } from '$lib/i18n/format.js';
-	import { pct, primaryTemp, diskStatus, containerStatus, usageTone, worstFirst, nodeLabel } from '$lib/core/derive.js';
+	import { t, findingText } from '#lib/i18n/index.svelte.js';
+	import { bytes, duration, celsius, number } from '#lib/i18n/format.js';
+	import { pct, primaryTemp, diskStatus, containerStatus, usageTone, worstFirst, nodeLabel } from '#lib/core/derive.js';
 	import Ring from '../primitives/Ring.svelte';
 	import ServerNode from '../primitives/ServerNode.svelte';
 	import Meter from '../primitives/Meter.svelte';

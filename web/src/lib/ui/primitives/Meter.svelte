@@ -1,5 +1,5 @@
 <script>
-	import { usageTone } from '$lib/core/derive.js';
+	import { usageTone } from '#lib/core/derive.js';
 
 	let { label, value = 0, detail = '' } = $props();
 	let v = $derived(Math.min(100, Math.max(0, value)));

@@ -1,5 +1,5 @@
 <script>
-	import mesh from '$lib/assets/mesh.svg';
+	import mesh from '#lib/assets/mesh.svg';
 
 	// full: bright and drifting; shade: darkens the left side behind large text.
 	let { full = false, shade = false } = $props();

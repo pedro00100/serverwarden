@@ -1,4 +1,4 @@
-import { ApiError } from '$lib/core/api.js';
+import { ApiError } from '#lib/core/api.js';
 import en from './en.js';
 import es from './es.js';
 

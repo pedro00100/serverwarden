@@ -1,5 +1,5 @@
 <script>
-	import { t, errorText } from '$lib/i18n/index.svelte.js';
+	import { t, errorText } from '#lib/i18n/index.svelte.js';
 
 	// onSave is async; children receive nothing and bind to their own draft state.
 	let { title, help = '', locked, onSave = null, saveLabel = '', children } = $props();

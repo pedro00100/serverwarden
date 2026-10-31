@@ -1,5 +1,5 @@
 <script>
-	import { t, errorText } from '$lib/i18n/index.svelte.js';
+	import { t, errorText } from '#lib/i18n/index.svelte.js';
 	import Section from './Section.svelte';
 	import ServerEditor from './ServerEditor.svelte';
 	import InstallPanel from './InstallPanel.svelte';

@@ -1,6 +1,6 @@
 <script>
 	import { untrack } from 'svelte';
-	import { t, errorText } from '$lib/i18n/index.svelte.js';
+	import { t, errorText } from '#lib/i18n/index.svelte.js';
 
 	// original: the server being edited, or null to add one. verify: go straight
 	// to confirming the host key of a server the panel does not trust yet.

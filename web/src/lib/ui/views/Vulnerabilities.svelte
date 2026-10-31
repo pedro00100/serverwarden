@@ -1,8 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-	import { t, errorText } from '$lib/i18n/index.svelte.js';
-	import { number, dateTime } from '$lib/i18n/format.js';
-	import { SEVERITIES, FILTERS, totals, matches, heatTiles } from '$lib/core/cve.svelte.js';
+	import { t, errorText } from '#lib/i18n/index.svelte.js';
+	import { number, dateTime } from '#lib/i18n/format.js';
+	import { SEVERITIES, FILTERS, totals, matches, heatTiles } from '#lib/core/cve.svelte.js';
 
 	let { cve, view } = $props();
 
