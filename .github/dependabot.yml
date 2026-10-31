@@ -1,6 +1,7 @@
 # Weekly updates. Patches and minor versions arrive grouped, one PR per
 # ecosystem, easy to merge once CI passes; major versions arrive one by one,
-# to be reviewed. CI must pass before anything is merged.
+# to be reviewed, except packages that only move together (grouped below).
+# CI must pass before anything is merged.
 version: 2
 updates:
   - package-ecosystem: gomod
@@ -10,7 +11,13 @@ updates:
   - package-ecosystem: npm
     directory: /web
     schedule: { interval: weekly }
-    groups: { web: { update-types: [minor, patch] } }
+    groups:
+      # SvelteKit, Svelte, Vite and their plugins only work together across
+      # majors: one PR with all of them, so CI can actually test the move.
+      sveltekit:
+        patterns: ['@sveltejs/*', 'svelte', 'vite']
+        update-types: [major]
+      web: { update-types: [minor, patch] }
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: weekly }
