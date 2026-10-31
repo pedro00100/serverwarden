@@ -102,6 +102,11 @@ const live = await until(90, async () => {
 	return page.$eval('.detail', (e) => e.textContent.includes('Debian GNU/Linux 13'));
 });
 result(live, 'Servers shows live data read by the agent (Debian GNU/Linux 13)');
+const agent = await page.$$eval('.detail .facts div', (rows) => {
+	const r = rows.find((d) => /^(Agent|Agente)$/.test(d.querySelector('dt')?.textContent.trim()));
+	return r && { text: r.querySelector('dd').textContent.trim(), warn: r.querySelector('dd').classList.contains('text-warning') };
+});
+result(agent && agent.text && !/before|anterior/i.test(agent.text) && !agent.warn, `the installed agent matches the panel (${agent?.text})`);
 await shot('servers');
 
 // 6. A command of your own, run on the server from Actions

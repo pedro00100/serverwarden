@@ -38,6 +38,7 @@ type Snapshot struct {
 	PanelCommands  bool            `json:"panel_commands"` // accepts the commands defined in the panel
 	ImageExport    bool            `json:"image_export"`   // lets the panel export local images to scan them
 	ConfigError    string          `json:"config_error,omitempty"`
+	AgentVersion   string          `json:"agent_version"` // empty from agents before 0.7.4
 	TakenAt        time.Time       `json:"taken_at"`
 }
 

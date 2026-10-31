@@ -49,6 +49,17 @@ console.log('servers: picked', title, '->', await page.evaluate(() => location.h
 if (!title) errors.push('server detail not shown');
 await shot('servers-picked');
 
+// Servers: an agent older than the panel is flagged in its detail.
+await (await page.$$('aside .item'))[2].click();
+await settle();
+const agent = await page.$$eval('.detail .facts div', (rows) => {
+	const r = rows.find((d) => /^(Agent|Agente)$/.test(d.querySelector('dt')?.textContent.trim()));
+	return r && { text: r.querySelector('dd').textContent.trim(), warn: r.querySelector('dd').classList.contains('text-warning') };
+});
+console.log('servers: nas agent', JSON.stringify(agent));
+if (!agent || agent.text !== '0.7.3' || !agent.warn) errors.push('outdated agent not flagged');
+await shot('servers-agent');
+
 // Vulnerabilities: open another target.
 await page.goto(base + '#vulnerabilities', { waitUntil: 'networkidle0' });
 await settle();

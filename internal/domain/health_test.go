@@ -51,3 +51,25 @@ func TestScore(t *testing.T) {
 		t.Errorf("score floor = %d", s)
 	}
 }
+
+func TestEvaluateAgent(t *testing.T) {
+	cases := []struct {
+		agent, panel, code string
+	}{
+		{"0.7.4", "0.7.4", ""},
+		{"0.7.3", "0.7.4", "agent_version"},
+		{"0.8.0", "0.7.4", "agent_version"},
+		{"", "0.7.4", "agent_version_old"},
+		{"0.7.3", "dev", ""},
+		{"dev", "0.7.4", "agent_version"},
+	}
+	for _, c := range cases {
+		f := EvaluateAgent(c.agent, c.panel)
+		switch {
+		case c.code == "" && len(f) != 0:
+			t.Errorf("%q vs %q: unexpected %v", c.agent, c.panel, f)
+		case c.code != "" && (len(f) != 1 || f[0].Code != c.code || f[0].Level != LevelWarning):
+			t.Errorf("%q vs %q: want %s, got %v", c.agent, c.panel, c.code, f)
+		}
+	}
+}

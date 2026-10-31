@@ -19,7 +19,7 @@ function snapshot(o) {
 		disk: { total: o.disk ?? 240 * 2 ** 30, used: (o.disk ?? 240 * 2 ** 30) * (o.diskPct ?? 0.37) },
 		temperatures: o.temp == null ? [] : [{ sensor: 'coretemp', label: 'Package id 0', celsius: o.temp, primary: true }],
 		disks: o.disks ?? [], containers: o.containers ?? [], failed_units: [], reboot_required: !!o.reboot,
-		tools, actions: o.actions ?? [], panel_commands: !!o.panelCommands, taken_at: now()
+		tools, actions: o.actions ?? [], panel_commands: !!o.panelCommands, agent_version: o.agent ?? '0.7.4', taken_at: now()
 	};
 }
 
@@ -56,7 +56,7 @@ const servers = [
 	},
 	{
 		server: { id: 'nas', name: 'nas', short: 'NAS', role: 'Storage · backups', location: 'Home', layer: 'internal' },
-		snapshot: snapshot({ hostname: 'nas', temp: 41, mem: 16 * 2 ** 30,
+		snapshot: snapshot({ hostname: 'nas', agent: '0.7.3', temp: 41, mem: 16 * 2 ** 30,
 			disks: [{ device: 'nvme0n1', model: 'Samsung SSD 980 1TB', healthy: true, celsius: 44, power_on_hours: 9100, wear_pct: 6 }],
 			containers: [container('vault', 'hashicorp/vault:1.21', { vault: { initialized: true, sealed: false, version: '1.21.0', progress: 0, threshold: 3 } })],
 			actions: [{ id: 'backup-now', name: 'Back up now', description: 'Runs the nightly restic backup immediately' }] }),
@@ -64,7 +64,10 @@ const servers = [
 			backups: [{ name: 'gateway', last: hoursAgo(5), snapshots: 21, bytes: 734 * 2 ** 20 }, { name: 'home-server', last: daysAgo(3), snapshots: 18, bytes: 2.1 * 2 ** 30 }],
 			pending_updates: 0, audit: { passwd: 2, sudoers: 1 } },
 		level: 'warning',
-		findings: [finding('warning', 'backup_old', { name: 'home-server' }, 'Backup home-server is more than a day old')]
+		findings: [
+			finding('warning', 'backup_old', { name: 'home-server' }, 'Backup home-server is more than a day old'),
+			finding('warning', 'agent_version', { agent: '0.7.3', panel: '0.7.4' }, 'Agent 0.7.3 does not match the panel (0.7.4): run its install script again (Settings › Servers)')
+		]
 	}
 ];
 

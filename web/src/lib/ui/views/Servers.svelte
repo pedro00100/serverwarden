@@ -84,6 +84,7 @@
 							{#if x.battery}<div><dt>{t('servers.battery')}</dt><dd>{x.battery.charge_pct} % · {batteryText(x.battery)}</dd></div>{/if}
 							<div><dt>{t('servers.rebootPending')}</dt><dd class={x.reboot_required ? 'text-warning' : 'text-ok'}>{x.reboot_required ? t('servers.yes') : t('servers.no')}</dd></div>
 							<div><dt>{t('servers.kernel')}</dt><dd class="mono small">{x.kernel}</dd></div>
+							<div><dt>{t('servers.agent')}</dt><dd class="mono small" class:text-warning={s.findings.some((f) => f.code.startsWith('agent_version'))}>{x.agent_version || t('servers.agentOld')}</dd></div>
 						</dl>
 					</div>
 

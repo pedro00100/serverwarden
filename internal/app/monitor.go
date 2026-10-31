@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/pedro00100/serverwarden/internal/brand"
 	"github.com/pedro00100/serverwarden/internal/domain"
 	"github.com/pedro00100/serverwarden/internal/ports"
 )
@@ -35,6 +36,7 @@ type Monitor struct {
 	interval         time.Duration
 	securityInterval time.Duration // security probes are more expensive
 	timeout          time.Duration
+	version          string // the panel's build, which agents should match
 	log              *slog.Logger
 
 	mu       sync.RWMutex
@@ -80,7 +82,7 @@ func (m *Monitor) publish() {
 func NewMonitor(src ports.ServerSource, servers []domain.Server, interval time.Duration, log *slog.Logger) *Monitor {
 	return &Monitor{
 		source: src, servers: servers, interval: interval, securityInterval: 5 * time.Minute,
-		timeout: 20 * time.Second, log: log,
+		timeout: 20 * time.Second, version: brand.Version, log: log,
 		latest: map[string]ServerView{}, security: map[string]*domain.Security{},
 	}
 }
@@ -147,6 +149,10 @@ func (m *Monitor) refresh(ctx context.Context) {
 			} else {
 				v.Snapshot = &snap
 				v.Level, v.Findings = domain.Evaluate(snap, time.Now())
+				for _, f := range domain.EvaluateAgent(snap.AgentVersion, m.version) {
+					v.Level = domain.Worse(v.Level, f.Level)
+					v.Findings = append(v.Findings, f)
+				}
 			}
 			m.mu.Lock()
 			m.latest[s.ID] = v

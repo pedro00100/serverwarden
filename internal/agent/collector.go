@@ -17,11 +17,12 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/pedro00100/serverwarden/internal/brand"
 	"github.com/pedro00100/serverwarden/internal/domain"
 )
 
 func Collect(ctx context.Context, cfg *Config) domain.Snapshot {
-	s := domain.Snapshot{TakenAt: time.Now().UTC(), Cores: runtime.NumCPU()}
+	s := domain.Snapshot{TakenAt: time.Now().UTC(), Cores: runtime.NumCPU(), AgentVersion: brand.Version}
 	s.Hostname, _ = os.Hostname()
 	s.OS = osName()
 	var u syscall.Utsname

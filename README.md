@@ -262,9 +262,9 @@ and when not to.
 
 - **Updating.** `docker compose pull && docker compose up -d`. Tags follow semantic
   versioning: `0.7` gets every fix of 0.7.x, `latest` everything. Settings migrate on
-  their own (a copy of the previous ones is kept). If a release note says the agent
-  changed, run each server's install script again (*Settings › Servers*); it is safe to
-  repeat. The panel never pushes binaries to your servers by itself: a compromised
+  their own (a copy of the previous ones is kept). Each server's detail shows its agent's
+  version, and the panel warns when one does not match its own: run that server's install
+  script again (*Settings › Servers*); it is safe to repeat. The panel never pushes binaries to your servers by itself: a compromised
   panel must not be able to replace the agent everywhere.
 - **Notifications.** Health alerts fire after a problem lasts a while (2 minutes by
   default), repeat if it goes on and tell you when it is resolved. Each channel picks a

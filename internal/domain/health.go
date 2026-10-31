@@ -102,6 +102,20 @@ func Evaluate(s Snapshot, now time.Time) (Level, []Finding) {
 	return level, f
 }
 
+// EvaluateAgent compares the agent's build with the panel's. The install script
+// hands out the panel's own agent, so a difference means it was not run again
+// after an update. Local builds ("dev") are not compared.
+func EvaluateAgent(agent, panel string) []Finding {
+	switch {
+	case panel == "dev" || agent == panel:
+		return nil
+	case agent == "":
+		return []Finding{NewFinding(LevelWarning, "agent_version_old", Args{"panel": panel})}
+	default:
+		return []Finding{NewFinding(LevelWarning, "agent_version", Args{"agent": agent, "panel": panel})}
+	}
+}
+
 // Score turns findings into a 0–100 grade.
 func Score(findings []Finding) int {
 	score := 100
