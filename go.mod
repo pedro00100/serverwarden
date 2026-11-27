@@ -3,10 +3,10 @@ module github.com/pedro00100/serverwarden
 go 1.27.3
 
 require (
-	github.com/boombuler/barcode v1.1.0
+	github.com/boombuler/barcode v1.1.1
 	github.com/go-webauthn/webauthn v0.18.2
 	github.com/pquerna/otp v1.5.0
-	golang.org/x/crypto v0.58.0
+	golang.org/x/crypto v0.59.0
 )
 
 require (
@@ -19,5 +19,5 @@ require (
 	github.com/philhofer/fwd v1.2.0 // indirect
 	github.com/tinylib/msgp v1.6.4 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
-	golang.org/x/sys v0.49.0 // indirect
+	golang.org/x/sys v0.50.0 // indirect
 )
